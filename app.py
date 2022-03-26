@@ -1,3 +1,5 @@
+import firebase_admin
+from firebase_admin import credentials
 from flask import Flask
 from flask_cors import CORS
 
@@ -12,5 +14,9 @@ CORS(app)
 app.register_blueprint(party_endpoint, url_prefix='/api/party')
 app.register_blueprint(test, url_prefix='/api/test')
 
+# Inicializamos firebase
+cred = credentials.Certificate("credentials.json")
+firebase_admin.initialize_app(cred)
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080)
+    app.run()
