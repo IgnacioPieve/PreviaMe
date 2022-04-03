@@ -1,5 +1,5 @@
-from pymongo import MongoClient
-import config
+from motor import motor_asyncio
+from config import db_string, db_name
 
-client = MongoClient()
-db = client[config.db_name]
+client = motor_asyncio.AsyncIOMotorClient(db_string)
+db = client[db_name]
