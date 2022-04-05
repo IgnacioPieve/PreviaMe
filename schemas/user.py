@@ -26,6 +26,5 @@ class UserModel(BaseModel):
     picture: Optional[str]
     name: str
     bio: Optional[str]
-    friends: Optional[list[FriendModel]]
     created_at: Optional[datetime.datetime]
     updated_at: Optional[datetime.datetime]
