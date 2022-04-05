@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/circleci-test              # Por defecto es "~"
     docker:
-      - image: cimg/python:3.10.1
+      - image: circleci/python:3.10.4
         auth:
           username: test1
           password: test2
