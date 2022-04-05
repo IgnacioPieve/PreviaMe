@@ -20,6 +20,12 @@ class UserRequestModel(BaseModel):
     bio: Optional[str]
 
 
+class UserUpdateModel(BaseModel):
+    name: Optional[str]
+    picture: Optional[str]
+    bio: Optional[str]
+
+
 class UserModel(BaseModel):
     user_id: str
     email: EmailStr
