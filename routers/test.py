@@ -8,7 +8,11 @@ router = APIRouter(
 
 
 @router.post('/auth')
-def create_user(user=Depends(auth.authenticate)):
-    print(user)
+def test_auth(user=Depends(auth.authenticate)):
     return {"status": "ok", "email": user['email']}
 
+
+@router.get("/status")
+def get_status():
+    """Get status of messaging server."""
+    return {"status": "running"}

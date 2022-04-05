@@ -1,0 +1,20 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/circleci-test              # Por defecto es "~"
+    docker:
+      - image: cimg/python:3.10.4
+        auth:
+          username: test1
+          password: test2
+      - image: circleci/mongo:5.0
+        environment:
+          MONGODB_USERNAME: test3
+          MONGODB_PASSWORD: tes4
+    steps:
+      - checkout
+      - run: pip install -r requirements.txt
+      - run:
+          name: Deploy server
+          command: |
+            git push https://github.com/IgnacioPieve/PreviaMe.git
