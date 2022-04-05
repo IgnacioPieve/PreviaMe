@@ -13,9 +13,9 @@ commands = [f'cd /home/ubuntu/{title}',
             'pkill -9 python',
             'git pull',
             'pip3 install -r requirements.txt',
-            'python3 main.py &']
+            'python3 main.py > /dev/null 2>&1 &']
 commands = '; '.join(commands)
 
-(stdin, stdout, stderr) = ssh.exec_command('nohup %s &'%commands, timeout=5)
+(stdin, stdout, stderr) = ssh.exec_command(commands)
 
 ssh.close()
