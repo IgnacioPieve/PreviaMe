@@ -1,5 +1,11 @@
 import secure_config
 
+"""
+    secure_config must have:
+        firebase_credentials
+        server_credentials
+"""
+
 title = 'PreviaMe'
 version = 0.1
 metadata = {
