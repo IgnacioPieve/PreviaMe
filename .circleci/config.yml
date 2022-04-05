@@ -1,12 +1,10 @@
-version: 2
+version: 2.1
+
 jobs:
   build:
     working_directory: ~/circleci-test              # Por defecto es "~"
     docker:
-      - image: "circleci/python:3.6.4"
-        auth:
-          username: test1
-          password: test2
+      - image: circleci/python:3.6.4
       - image: circleci/mongo:5.0
         environment:
           MONGODB_USERNAME: test3
