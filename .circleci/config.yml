@@ -4,7 +4,7 @@ jobs:
   build:
     working_directory: ~/circleci-test              # Por defecto es "~"
     docker:
-      - image: circleci/python:3.10.4
+      - image: circleci/python:3.10.1
       - image: circleci/mongo:5.0
         environment:
           MONGODB_USERNAME: test3
