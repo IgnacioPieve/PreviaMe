@@ -5,6 +5,7 @@ from secure_config import server_credentials, firestore_key
     secure_config must have:
         firebase_credentials
         server_credentials
+        firestore_key
 """
 
 title = 'PreviaMe'
