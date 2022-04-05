@@ -1,4 +1,5 @@
 import secure_config
+from secure_config import server_credentials, firestore_key
 
 """
     secure_config must have:
