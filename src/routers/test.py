@@ -1,4 +1,4 @@
-from config import firestore_key
+import config
 import requests
 from fastapi import APIRouter, Depends, status
 from dependencies import auth
@@ -28,7 +28,7 @@ def login(user: UserRequestModel):
         **user.dict(),
         "returnSecureToken": True
     }
-    url = f"https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key={firestore_key}"
+    url = f"https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key={config.credentials['firebase_key']}"
     response = requests.post(url, json=user)
     return {"status": "ok", "token": response.json()['idToken']}
 
@@ -40,6 +40,6 @@ def register(user: UserRequestModel):
         **user.dict(),
         "returnSecureToken": True
     }
-    url = f"https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key={firestore_key}"
+    url = f"https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key={config.credentials['firebase_key']}"
     response = requests.post(url, json=user)
     return {"status": "ok", "token": response.json()['idToken']}

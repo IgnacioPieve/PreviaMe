@@ -4,7 +4,7 @@ from firebase_admin import auth, credentials
 import firebase_admin
 import config
 
-cred = credentials.Certificate(config.firebase_credentials)
+cred = credentials.Certificate(config.credentials["firebase"])
 firebase_admin.initialize_app(cred)
 
 
