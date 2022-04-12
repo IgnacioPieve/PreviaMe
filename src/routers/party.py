@@ -14,11 +14,6 @@ router = APIRouter(
 )
 
 
-class Party:
-    def __init__(self, party):
-        self.party = party
-
-
 @router.post('/', response_model=PartyModel)
 async def create_party(party: PartyRequestModel, user=Depends(auth.authenticate)):
     party = jsonable_encoder(party)
@@ -29,14 +24,14 @@ async def create_party(party: PartyRequestModel, user=Depends(auth.authenticate)
         'members': [],
         'pending': []
     }
-    new_party = await db["parties"].insert_one(party)
-    created_party = await db["parties"].find_one({"_id": new_party.inserted_id})
+    new_party = await db["party"].insert_one(party)
+    created_party = await db["party"].find_one({"_id": new_party.inserted_id})
     return created_party
 
 
 @router.get("/", response_model=List[PartyModel])
 async def get_parties():
-    parties = await db["parties"].find().to_list(1000)
+    parties = await db["party"].find().to_list(1000)
     return parties
 
 
@@ -44,7 +39,7 @@ async def get_parties():
 async def get_party(party_id: str):
     if not ObjectId.is_valid(party_id):
         raise HTTPException(status_code=400, detail="Party Id not valid (check length)")
-    party = await db["parties"].find_one({"_id": ObjectId(party_id)})
+    party = await db["party"].find_one({"_id": ObjectId(party_id)})
     if not party:
         raise HTTPException(status_code=404, detail="Party not found")
     return party
@@ -54,7 +49,7 @@ async def get_party(party_id: str):
 async def join_party(party_id: str, user=Depends(auth.authenticate)):
     if not ObjectId.is_valid(party_id):
         raise HTTPException(status_code=400, detail="Party Id not valid (check length)")
-    party = await db["parties"].find_one({"_id": ObjectId(party_id)})
+    party = await db["party"].find_one({"_id": ObjectId(party_id)})
     if not party:
         raise HTTPException(status_code=404, detail="Party not found")
 
@@ -69,16 +64,23 @@ async def join_party(party_id: str, user=Depends(auth.authenticate)):
 
     party['pending'].append(user['user_id'])
 
-    await db["parties"].update_one({"_id": ObjectId(party_id)}, {"$set": party})
+    await db["party"].update_one({"_id": ObjectId(party_id)}, {"$set": party})
 
     return {'status': 'ok'}
 
 
-@router.post("/{party_id}/{user_id}")
+@router.post("/{party_id}/{user_id}", summary="Accept a request to join a party")
 async def accept_member(party_id: str, user_id: str, user=Depends(auth.authenticate)):
+    """
+        Acepta a un miembro de la lista de pendientes:
+
+        - **party_id**: id de la fiesta a la que pertenece el usuario
+        - **user_id**: id del usuario que se quiere aceptar
+    """
+
     if not ObjectId.is_valid(party_id):
         raise HTTPException(status_code=400, detail="Party Id not valid (check length)")
-    party = await db["parties"].find_one({"_id": ObjectId(party_id)})
+    party = await db["party"].find_one({"_id": ObjectId(party_id)})
     if not party:
         raise HTTPException(status_code=404, detail="Party not found")
 
@@ -86,11 +88,11 @@ async def accept_member(party_id: str, user_id: str, user=Depends(auth.authentic
         raise HTTPException(status_code=401, detail="You're not the party owner!")
 
     if user_id not in party['pending']:
-        raise HTTPException(status_code=400, detail=f"User ({user_id}) is not on the pending list!")
+        raise HTTPException(status_code=409, detail=f"User ({user_id}) is not on the pending list!")
 
     party['pending'].remove(user_id)
     party['members'].append(user_id)
 
-    await db["parties"].update_one({"_id": ObjectId(party_id)}, {"$set": party})
+    await db["party"].update_one({"_id": ObjectId(party_id)}, {"$set": party})
 
     return {'status': 'ok'}

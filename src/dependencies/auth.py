@@ -1,14 +1,17 @@
+import datetime
+
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi import Depends, HTTPException, status
 from firebase_admin import auth, credentials
 import firebase_admin
 import config
+from database import db
 
 cred = credentials.Certificate(config.credentials["firebase"])
 firebase_admin.initialize_app(cred)
 
 
-def authenticate(cred: HTTPAuthorizationCredentials = Depends(HTTPBearer(auto_error=False))):
+async def authenticate(cred: HTTPAuthorizationCredentials = Depends(HTTPBearer(auto_error=False))):
     if cred is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -23,4 +26,16 @@ def authenticate(cred: HTTPAuthorizationCredentials = Depends(HTTPBearer(auto_er
             detail=f"Invalid authentication credentials. {err}"
         )
 
+    user = await db['user'].find_one({"user_id": decoded_token["user_id"]})
+    if not user:
+        user = {
+            'user_id': decoded_token["user_id"],
+            'email': decoded_token["email"],
+            'created_at': datetime.datetime.now(),
+            'updated_at': datetime.datetime.now(),
+            'friends': [],
+            'friend_requests_sent': [],
+            'friend_requests_received': [],
+        }
+        await db["user"].insert_one(user)
     return decoded_token
