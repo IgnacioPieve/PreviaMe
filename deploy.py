@@ -12,8 +12,8 @@ commands = [f'cd /home/ubuntu/{title}',
             'mkdir test',
             'pkill -9 python',
             'git pull',
-            'docker build -t PreviaMe .',
-            'docker run -d --name PreviaMe-Container -p 8000:8000 PreviaMe 2>&1 &']
+            'docker build -t previame .',
+            'docker run -d --name previame-container -p 8000:8000 previame 2>&1 &']
 commands = '; '.join(commands)
 
 (stdin, stdout, stderr) = ssh.exec_command(commands)
