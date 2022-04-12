@@ -9,5 +9,8 @@ v0.1
 
 
     git pull
-    docker build -t PreviaMe .
-    docker run -d --name PreviaMe-Container -p 8000:8000 PreviaMe
+    docker stop previame-container
+    docker rm previame-container
+    docker rmi previame
+    docker build -t previame .
+    docker run -d --name previame-container -p 8000:8000 previame
