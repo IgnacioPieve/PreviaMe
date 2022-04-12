@@ -1,6 +1,5 @@
 import datetime
 from typing import List
-
 from bson import ObjectId
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.encoders import jsonable_encoder
@@ -14,8 +13,41 @@ router = APIRouter(
 )
 
 
-@router.post('/', response_model=PartyModel)
+@router.get("/", response_model=List[PartyModel])
+async def get_parties():
+    """
+        Obtiene todas las fiestas
+    """
+    parties = await db["party"].find().to_list(1000)
+    return parties
+
+
+@router.get("/{party_id}", response_model=PartyModel, summary="Get a party data")
+async def get_party(party_id: str):
+    """
+        Obtiene los datos de una fiesta
+    """
+
+    if not ObjectId.is_valid(party_id):
+        raise HTTPException(status_code=400, detail="Party Id not valid (check length)")
+    party = await db["party"].find_one({"_id": ObjectId(party_id)})
+    if not party:
+        raise HTTPException(status_code=404, detail="Party not found")
+    return party
+
+
+@router.post('/', response_model=PartyModel, summary="Create a new party")
 async def create_party(party: PartyRequestModel, user=Depends(auth.authenticate)):
+    """
+        Envía una solicitud de unirse a una fiesta:
+
+        - **geopoint**: json de coordenadas {lat, lon}
+        - **music**: integer que representa la música que se va a tocar
+        - **price**: float que representa el precio de la fiesta
+        - **alcohol**: boolean que representa si la fiesta tiene alcohol
+        - **description**: string que representa la descripción de la fiesta
+    """
+
     party = jsonable_encoder(party)
     party = {
         **party,
@@ -29,24 +61,13 @@ async def create_party(party: PartyRequestModel, user=Depends(auth.authenticate)
     return created_party
 
 
-@router.get("/", response_model=List[PartyModel])
-async def get_parties():
-    parties = await db["party"].find().to_list(1000)
-    return parties
-
-
-@router.get("/{party_id}", response_model=PartyModel)
-async def get_party(party_id: str):
-    if not ObjectId.is_valid(party_id):
-        raise HTTPException(status_code=400, detail="Party Id not valid (check length)")
-    party = await db["party"].find_one({"_id": ObjectId(party_id)})
-    if not party:
-        raise HTTPException(status_code=404, detail="Party not found")
-    return party
-
-
-@router.post("/{party_id}/join")
+@router.post("/{party_id}/join", summary="Request to join a party")
 async def join_party(party_id: str, user=Depends(auth.authenticate)):
+    """
+        Envía una solicitud de unirse a una fiesta:
+
+        - **party_id**: id de la fiesta a la que se desea asistir
+    """
     if not ObjectId.is_valid(party_id):
         raise HTTPException(status_code=400, detail="Party Id not valid (check length)")
     party = await db["party"].find_one({"_id": ObjectId(party_id)})

@@ -1,7 +1,5 @@
 import datetime
-from typing import List
-
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from fastapi.encoders import jsonable_encoder
 from dependencies import auth
 from schemas.user import UserModel, UserUpdateModel
@@ -13,8 +11,24 @@ router = APIRouter(
 )
 
 
-@router.post('/', response_model=UserModel, status_code=201)
+@router.get('/', response_model=UserModel, status_code=200, summary="Get user data")
+async def get_user(user=Depends(auth.authenticate)):
+    """
+        Obtener la información de un usuario
+    """
+    return await db["user"].find_one({'user_id': user["user_id"]})
+
+
+@router.post('/', response_model=UserModel, status_code=201, summary="Update user data")
 async def create_user(user_data: UserUpdateModel, user=Depends(auth.authenticate)):
+    """
+        Actualiza los datos de un usuario (sobreecribiendo el objeto completo):
+
+        - **picture**: Link a la imagen del usuario
+        - **name**: Nombre del usuario
+        - **bio**: Biografía del usuario
+    """
+
     user_data = jsonable_encoder(user_data)
     new_user = {
         'user_id': user["user_id"],
@@ -37,8 +51,16 @@ async def create_user(user_data: UserUpdateModel, user=Depends(auth.authenticate
     return new_user
 
 
-@router.put('/', response_model=UserModel, status_code=200)
+@router.patch('/', response_model=UserModel, status_code=200, summary="Update user data")
 async def update_user(user_data: UserUpdateModel, user=Depends(auth.authenticate)):
+    """
+        Actualiza los datos de un usuario (sin sobreescribirlos):
+
+        - **picture**: Link a la imagen del usuario
+        - **name**: Nombre del usuario
+        - **bio**: Biografía del usuario
+    """
+
     new_user = await db["user"].find_one({'user_id': user["user_id"]}, {"_id": 0})
 
     new_user_data = jsonable_encoder(user_data)
@@ -54,8 +76,3 @@ async def update_user(user_data: UserUpdateModel, user=Depends(auth.authenticate
         {'$set': new_user}
     )
     return new_user
-
-
-@router.get('/', response_model=UserModel, status_code=200)
-async def get_user(user=Depends(auth.authenticate)):
-    return await db["user"].find_one({'user_id': user["user_id"]})

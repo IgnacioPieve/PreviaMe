@@ -17,6 +17,7 @@ class PartyRequestModel(BaseModel):
     geopoint: GeoPoint
     music: int
     price: float
+    name: str
     alcohol: bool
     description: Optional[str]
 
@@ -27,6 +28,7 @@ class PartyRequestModel(BaseModel):
                     "lat": -31.442626,
                     "lng": -64.192783
                 },
+                "name": "UPD La Salle 2022",
                 "music": 5,
                 "price": 750,
                 "alcohol": False,
@@ -41,6 +43,7 @@ class PartyModel(BaseModel):
     created: datetime.datetime
     user_id: str
     music: int
+    name: str
     price: float
     alcohol: bool
     description: Optional[str]
@@ -57,6 +60,7 @@ class PartyModel(BaseModel):
                     "lng": -64.192783
                 },
                 "created": "2020-04-01T00:00:00",
+                "name": "UPD La Salle 2022",
                 "music": 5,
                 "price": 750,
                 "alcohol": False,
@@ -77,6 +81,7 @@ class PartyOwnerModel(PartyModel):
                     "lng": -64.192783
                 },
                 "created": "2020-04-01T00:00:00",
+                "name": "UPD La Salle 2022",
                 "music": 5,
                 "price": 750,
                 "alcohol": False,
