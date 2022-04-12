@@ -1,13 +1,9 @@
 import datetime
 from typing import Optional
-
-from bson import ObjectId
-from pydantic import BaseModel, Field, EmailStr
-from typing_extensions import TypedDict
-from schemas.utils import PyObjectId
+from pydantic import BaseModel, EmailStr
 
 
-class FriendModel(BaseModel):
+class SimpleUserModel(BaseModel):
     user_id: str
     name: str
     picture: Optional[str]

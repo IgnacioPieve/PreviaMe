@@ -2,3 +2,4 @@ fastapi==0.75.1
 firebase_admin==5.2.0
 motor==2.5.1
 uvicorn==0.17.6
+email-validator==1.1.3
