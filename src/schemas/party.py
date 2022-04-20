@@ -8,13 +8,9 @@ from schemas.utils import PyObjectId
 from schemas.user import SimpleUserModel
 
 
-class GeoPoint(TypedDict):
-    lat: float
-    lng: float
-
 
 class PartyRequestModel(BaseModel):
-    geopoint: GeoPoint
+    geopoint: list[float]
     music: int
     price: float
     name: str
@@ -24,10 +20,7 @@ class PartyRequestModel(BaseModel):
     class Config:
         schema_extra = {
             "example": {
-                "geopoint": {
-                    "lat": -31.442626,
-                    "lng": -64.192783
-                },
+                "geopoint": [-31.442626, -64.192783],
                 "name": "UPD La Salle 2022",
                 "music": 5,
                 "price": 750,
@@ -39,7 +32,7 @@ class PartyRequestModel(BaseModel):
 
 class PartyModel(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
-    geopoint: GeoPoint
+    geopoint: list[float]
     created: datetime.datetime
     user_id: str
     music: int
@@ -55,10 +48,7 @@ class PartyModel(BaseModel):
         schema_extra = {
             "example": {
                 "id": "624c7d0eab0ac6f86b69c33e",
-                "geopoint": {
-                    "lat": -31.442626,
-                    "lng": -64.192783
-                },
+                "geopoint": [-31.442626, -64.192783],
                 "created": "2020-04-01T00:00:00",
                 "name": "UPD La Salle 2022",
                 "music": 5,
@@ -76,10 +66,7 @@ class PartyOwnerModel(PartyModel):
         schema_extra = {
             "example": {
                 "id": "624c7d0eab0ac6f86b69c33e",
-                "geopoint": {
-                    "lat": -31.442626,
-                    "lng": -64.192783
-                },
+                "geopoint": [-31.442626, -64.192783],
                 "created": "2020-04-01T00:00:00",
                 "name": "UPD La Salle 2022",
                 "music": 5,

@@ -1,4 +1,5 @@
 import datetime
+import math
 from typing import List
 from bson import ObjectId
 from fastapi import APIRouter, Depends, HTTPException
@@ -14,11 +15,22 @@ router = APIRouter(
 
 
 @router.get("/", response_model=List[PartyModel])
-async def get_parties():
+async def get_parties(top_lat: float, top_lng: float, bottom_lat: float, bottom_lng: float):
     """
-        Obtiene todas las fiestas
+        Obtiene todas las fiestas que se encuentran dentro de un rectángulo (top_coords, bottom_coords): Area de búsqueda
+
+        Las fiestas tienen que estar dentro del area de busqueda y estar dentro de un rango de 10 horas.
+        TODO: Rango de tiempo
     """
-    parties = await db["party"].find().to_list(1000)
+
+    x = (top_lat + bottom_lat) / 2
+    y = (top_lng + bottom_lng) / 2
+    distance = math.sqrt((top_lat - bottom_lat) ** 2 + (top_lng - bottom_lng) ** 2) / 2
+
+    parties = await db["party"].find({
+        "geopoint": {"$near": [x, y], "$maxDistance": distance}
+    }).to_list(1000)
+
     return parties
 
 
