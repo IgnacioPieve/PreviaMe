@@ -15,6 +15,7 @@ class PartyRequestModel(BaseModel):
     price: float
     name: str
     alcohol: bool
+    date: datetime.datetime
     description: Optional[str]
 
     class Config:
@@ -25,7 +26,8 @@ class PartyRequestModel(BaseModel):
                 "music": 5,
                 "price": 750,
                 "alcohol": False,
-                "description": "UPD Promo 22"
+                "description": "UPD Promo 22",
+                "date": "2022-04-20T15:20:20.349Z"
             }
         }
 
@@ -39,6 +41,7 @@ class PartyModel(BaseModel):
     name: str
     price: float
     alcohol: bool
+    date: datetime.datetime
     description: Optional[str]
 
     class Config:
@@ -54,7 +57,8 @@ class PartyModel(BaseModel):
                 "music": 5,
                 "price": 750,
                 "alcohol": False,
-                "description": "UPD Promo 22"
+                "description": "UPD Promo 22",
+                "date": "2022-04-20T15:20:20.349Z"
             }
         }
 
@@ -72,6 +76,7 @@ class PartyOwnerModel(PartyModel):
                 "music": 5,
                 "price": 750,
                 "alcohol": False,
-                "description": "UPD Promo 22"
+                "description": "UPD Promo 22",
+                "date": "2022-04-20T15:20:20.349Z"
             }
         }
