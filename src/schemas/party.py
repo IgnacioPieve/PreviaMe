@@ -11,7 +11,7 @@ from schemas.user import SimpleUserModel
 
 class PartyRequestModel(BaseModel):
     geopoint: list[float]
-    music: int
+    music: list[int]
     price: float
     name: str
     alcohol: bool
@@ -23,7 +23,7 @@ class PartyRequestModel(BaseModel):
             "example": {
                 "geopoint": [-31.442626, -64.192783],
                 "name": "UPD La Salle 2022",
-                "music": 5,
+                "music": [5],
                 "price": 750,
                 "alcohol": False,
                 "description": "UPD Promo 22",
@@ -37,7 +37,7 @@ class PartyModel(BaseModel):
     geopoint: list[float]
     created: datetime.datetime
     user_id: str
-    music: int
+    music: list[int]
     name: str
     price: float
     alcohol: bool
@@ -54,7 +54,7 @@ class PartyModel(BaseModel):
                 "geopoint": [-31.442626, -64.192783],
                 "created": "2020-04-01T00:00:00",
                 "name": "UPD La Salle 2022",
-                "music": 5,
+                "music": [5],
                 "price": 750,
                 "alcohol": False,
                 "description": "UPD Promo 22",
@@ -73,7 +73,7 @@ class PartyOwnerModel(PartyModel):
                 "geopoint": [-31.442626, -64.192783],
                 "created": "2020-04-01T00:00:00",
                 "name": "UPD La Salle 2022",
-                "music": 5,
+                "music": [5],
                 "price": 750,
                 "alcohol": False,
                 "description": "UPD Promo 22",
