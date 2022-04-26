@@ -21,9 +21,8 @@ def get_status():
 
 @router.post("/login")
 def login(user: UserRequestModel):
-
     user = {**user.dict(), "returnSecureToken": True}
-    url = f"https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key={config.credentials['firebase_key']}"
+    url = f"https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key={config.firebase_key}"
     response = requests.post(url, json=user)
     return {"status": "ok", "token": response.json()["idToken"]}
 
@@ -31,8 +30,7 @@ def login(user: UserRequestModel):
 # Endpoint to register user
 @router.post("/register")
 def register(user: UserRequestModel):
-
     user = {**user.dict(), "returnSecureToken": True}
-    url = f"https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key={config.credentials['firebase_key']}"
+    url = f"https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key={config.firebase_key}"
     response = requests.post(url, json=user)
     return {"status": "ok", "token": response.json()["idToken"]}
