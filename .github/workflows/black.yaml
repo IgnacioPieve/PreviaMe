@@ -1,7 +1,6 @@
 on:
   push:
     branches: ["master"]
-  workflow_dispatch:
 
 jobs:
   lint:
@@ -17,7 +16,7 @@ jobs:
           architecture: x64
       - name: Install Black
         run: pip install black
-      - name: Run Black
+      - name: Check black
         id: run_black
         run: black --check ./src
       - name: Commit changes
