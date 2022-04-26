@@ -45,8 +45,8 @@ jobs:
 
       - name: Run container
         run:  >
-          ssh staging 'docker run -d --name previame-container -p 8000:8000 previame
-          -env PREVIAME_DB_STRING="${{ secrets.PREVIAME_DB_STRING }}"
-          -env PREVIAME_FIREBASE_JSON="${{ secrets.PREVIAME_FIREBASE_JSON }}"
-          -env PREVIAME_FIREBASE_KEY="${{ secrets.PREVIAME_FIREBASE_KEY }}"
-          -env PREVIAME_FIREBASE_PRIVATE_KEY=${{ secrets.PREVIAME_FIREBASE_PRIVATE_KEY }} '
+          ssh staging 'docker run -d --name previame-container -p 8000:8000
+          --env PREVIAME_DB_STRING="${{ secrets.PREVIAME_DB_STRING }}"
+          --env PREVIAME_FIREBASE_JSON="${{ secrets.PREVIAME_FIREBASE_JSON }}"
+          --env PREVIAME_FIREBASE_KEY="${{ secrets.PREVIAME_FIREBASE_KEY }}"
+          --env PREVIAME_FIREBASE_PRIVATE_KEY="${{ secrets.PREVIAME_FIREBASE_PRIVATE_KEY }}" previame'
