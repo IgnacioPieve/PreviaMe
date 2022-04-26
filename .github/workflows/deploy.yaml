@@ -25,12 +25,10 @@ jobs:
             IdentityFile ~/.ssh/staging.key
             StrictHostKeyChecking no
           END
-          ssh staging 'cd /home/ubuntu/PreviaMe'
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
-
       - name: Stop Container
         run: ssh staging 'docker stop previame-container'
 
@@ -40,7 +38,7 @@ jobs:
           ssh staging 'docker rmi previame'
 
       - name: Build image
-        run: ssh staging 'docker build -t previame .'
+        run: ssh staging 'cd /home/ubuntu/PreviaMe && docker build -t previame .'
 
       - name: Run container
         run: ssh staging 'docker run -d --name previame-container -p 8000:8000 previame'
