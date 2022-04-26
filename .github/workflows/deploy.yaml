@@ -1,0 +1,46 @@
+name: Integración Continua (Tests & Despliegue)
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  # test:
+  #   ...
+  deploy:
+    name: "Deploy to EC2"
+    runs-on: ubuntu-latest
+    # needs: test
+    steps:
+      - name: Configurar SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/staging.key
+          chmod 600 ~/.ssh/staging.key
+          cat >>~/.ssh/config <<END
+          Host staging
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/staging.key
+            StrictHostKeyChecking no
+          END
+          ssh staging 'cd /home/ubuntu/PreviaMe'
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+
+      - name: Stop Container
+        run: ssh staging 'docker stop previame-container'
+
+      - name: Delete container and image
+        run: |
+          ssh staging 'docker rm previame-container'
+          ssh staging 'docker rmi previame'
+
+      - name: Build image
+        run: ssh staging 'docker build -t previame .'
+
+      - name: Run container
+        run: ssh staging 'docker run -d --name previame-container -p 8000:8000 previame'
