@@ -18,6 +18,7 @@ jobs:
       - name: Install Black
         run: pip install black
       - name: Run Black
+        id: run_black
         run: black --check ./src
       - name: Commit changes
         if: failure()
@@ -25,7 +26,7 @@ jobs:
           black ./src
           git config --global user.name 'Black Linter'
           git config --global user.email 'ignacio.pieve@gmail.com'
-          git commit -m ":art: Format Python code with Black" -a
+          git commit -m ":art: [Bot] Format Python code with Black" -a
           git push
       - name: Push changes
         if: failure()
@@ -33,3 +34,6 @@ jobs:
         with:
           github_token: ${{ secrets.TOKEN_GITHUB }}
           branch: main
+      - name: Check if black was needed
+        if: steps.run_black.outcome != 'success'
+        run: exit 1
