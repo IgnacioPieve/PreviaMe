@@ -1,12 +1,12 @@
-name: Lint code using Black
+name: Lint code using Black and isort
 
 on:
   push:
     branches: ["main"]
 
 jobs:
-  lint:
-    name: Lint code using Black
+  lint_sort:
+    name: Lint code using Black and isort
     runs-on: ubuntu-latest
 
     steps:
@@ -16,25 +16,25 @@ jobs:
         with:
           python-version: "3.10"
           architecture: x64
-      - name: Install Black
-        run: pip install black
-      - name: Check black
-        id: run_black
-        run: black --check ./src
-      - name: Commit changes
-        if: failure()
+      - name: Install Black and isort
+        run: |
+          - pip install black
+          - pip install isort
+      - name: Configure git
+        run: |
+          git config --global user.name '[Bot] Ignacio Pieve Roiger'
+          git config --global user.email 'ignacio.pieve@gmail.com'
+
+      - name: Run black
         run: |
           black ./src
-          git config --global user.name 'Black Linter'
-          git config --global user.email 'ignacio.pieve@gmail.com'
           git commit -m "🎨 [Bot] Format Python code with Black" -a
-          git push
+      - name: Run isort
+        run: |
+          isort .
+          git commit -m "🎨 [Bot] Format Python code with isort" -a
       - name: Push changes
-        if: failure()
         uses: ad-m/github-push-action@v0.6.0
         with:
           github_token: ${{ secrets.TOKEN_GITHUB }}
           branch: main
-      - name: Check if black was needed
-        if: steps.run_black.outcome != 'success'
-        run: exit 1
