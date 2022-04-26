@@ -1,11 +1,11 @@
 import datetime
 
-import config
 import firebase_admin
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from firebase_admin import auth, credentials
 
+import config
 from database import db
 
 cred = credentials.Certificate(config.firebase)

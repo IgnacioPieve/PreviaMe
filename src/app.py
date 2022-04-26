@@ -1,6 +1,6 @@
-import config
 from fastapi import FastAPI
 
+import config
 from routers import friend, party, test, user
 
 app = FastAPI(**config.metadata)

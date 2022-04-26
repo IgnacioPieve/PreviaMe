@@ -1,7 +1,7 @@
-import config
 import requests
 from fastapi import APIRouter, Depends, status
 
+import config
 from dependencies import auth
 from schemas.test import UserRequestModel
 

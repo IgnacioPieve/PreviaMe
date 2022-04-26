@@ -1,6 +1,7 @@
-from config import db_name, db_string
 from motor import motor_asyncio
 from pymongo import GEO2D
+
+from config import db_name, db_string
 
 client = motor_asyncio.AsyncIOMotorClient(db_string)
 db = client[db_name]
