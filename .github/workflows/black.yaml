@@ -1,6 +1,8 @@
+name: Lint code using Black
+
 on:
   push:
-    branches: ["master"]
+    branches: ["main"]
 
 jobs:
   lint:
@@ -25,7 +27,7 @@ jobs:
           black ./src
           git config --global user.name 'Black Linter'
           git config --global user.email 'ignacio.pieve@gmail.com'
-          git commit -m ":art: [Bot] Format Python code with Black" -a
+          git commit -m "🎨 [Bot] Format Python code with Black" -a
           git push
       - name: Push changes
         if: failure()
