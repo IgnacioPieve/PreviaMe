@@ -1,7 +1,6 @@
 FROM python:3.10
 
 COPY ./src /app/src
-COPY ./config.py /app/src
 COPY ./requirements.txt /app
 
 WORKDIR /app
