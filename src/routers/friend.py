@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
-from dependencies import auth
+
 from database import db
+from dependencies import auth
 from schemas.utils import StatusMessage
 
 router = APIRouter(prefix="/friend", tags=["Friends"])

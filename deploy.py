@@ -1,7 +1,7 @@
 import io
+
 import paramiko as paramiko
-from config import credentials
-from config import title
+from config import credentials, title
 
 sc = credentials['server']
 key = paramiko.RSAKey.from_private_key(io.StringIO(sc['private_key']))

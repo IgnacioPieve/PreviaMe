@@ -1,12 +1,14 @@
 import datetime
 import math
 from typing import List
+
 from bson import ObjectId
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.encoders import jsonable_encoder
-from dependencies import auth
-from schemas.party import PartyRequestModel, PartyModel
+
 from database import db
+from dependencies import auth
+from schemas.party import PartyModel, PartyRequestModel
 
 router = APIRouter(prefix="/party", tags=["Party"])
 

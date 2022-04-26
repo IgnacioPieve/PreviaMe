@@ -1,9 +1,11 @@
 import datetime
+
 from fastapi import APIRouter, Depends
 from fastapi.encoders import jsonable_encoder
+
+from database import db
 from dependencies import auth
 from schemas.user import UserModel, UserUpdateModel
-from database import db
 
 router = APIRouter(prefix="/user", tags=["User"])
 

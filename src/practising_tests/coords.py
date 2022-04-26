@@ -1,7 +1,7 @@
 import math
 
-from pymongo import MongoClient, GEO2D
 import matplotlib.pyplot as plt
+from pymongo import GEO2D, MongoClient
 
 client = MongoClient()
 db = client["test_database"]
