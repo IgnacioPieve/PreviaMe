@@ -29,6 +29,9 @@ jobs:
           SSH_USER: ${{ secrets.SSH_USER }}
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
+      - name: Pull changes
+        run: |
+          ssh staging 'cd /home/ubuntu/PreviaMe && git pull'
       - name: Stop Container
         run: ssh staging 'docker stop previame-container' || true
 
