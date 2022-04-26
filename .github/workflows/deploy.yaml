@@ -30,12 +30,12 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_KEY }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
       - name: Stop Container
-        run: ssh staging 'docker stop previame-container'
+        run: ssh staging 'docker stop previame-container' || true
 
       - name: Delete container and image
         run: |
-          ssh staging 'docker rm previame-container'
-          ssh staging 'docker rmi previame'
+          ssh staging 'docker rm previame-container' || true
+          ssh staging 'docker rmi previame' || true
 
       - name: Build image
         run: ssh staging 'cd /home/ubuntu/PreviaMe && docker build -t previame .'
