@@ -36,13 +36,7 @@ async def get_parties(
 
 
 @router.get("/{party_id}", response_model=PartyModel, summary="Get a party data")
-async def get_party(
-
-
-        party_id: str
-
-
-                    ):
+async def get_party(party_id: str):
     """
     Obtiene los datos de una fiesta
     """
