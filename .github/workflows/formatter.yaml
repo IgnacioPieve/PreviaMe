@@ -28,11 +28,11 @@ jobs:
       - name: Run black
         run: |
           black ./src
-          git commit -m "🎨 [Bot] Format Python code with Black" -a
+          git commit -m "🎨 [Bot] Format Python code with Black" -a || echo "No changes to commit"
       - name: Run isort
         run: |
           isort .
-          git commit -m "🎨 [Bot] Format Python code with isort" -a
+          git commit -m "🎨 [Bot] Format Python code with isort" -a || echo "No changes to commit"
       - name: Push changes
         uses: ad-m/github-push-action@v0.6.0
         with:
