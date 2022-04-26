@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     # needs: test
     steps:
-      - name: Configurar SSH
+      - name: Set up SSH
         run: |
           mkdir -p ~/.ssh/
           echo "$SSH_KEY" > ~/.ssh/staging.key
@@ -45,6 +45,7 @@ jobs:
 
       - name: Set env variables
         run: |
+          ssh staging 'export TEST=TEST'
           ssh staging 'export PREVIAME_DB_STRING=${{ secrets.PREVIAME_DB_STRING }}'
           ssh staging 'export PREVIAME_FIREBASE_JSON=${{ secrets.PREVIAME_FIREBASE_JSON }}'
           ssh staging 'export PREVIAME_FIREBASE_KEY=${{ secrets.PREVIAME_FIREBASE_KEY }}'
