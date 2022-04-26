@@ -45,11 +45,10 @@ jobs:
 
       - name: Set env variables
         run: |
-          ssh staging 'export TEST=TEST'
-          ssh staging 'export PREVIAME_DB_STRING=${{ secrets.PREVIAME_DB_STRING }}'
-          ssh staging 'export PREVIAME_FIREBASE_JSON=${{ secrets.PREVIAME_FIREBASE_JSON }}'
-          ssh staging 'export PREVIAME_FIREBASE_KEY=${{ secrets.PREVIAME_FIREBASE_KEY }}'
-          ssh staging 'export PREVIAME_FIREBASE_PRIVATE_KEY=${{ secrets.PREVIAME_FIREBASE_PRIVATE_KEY }}'
+          ssh staging 'export PREVIAME_DB_STRING=${{ secrets.PREVIAME_DB_STRING }} >> ~/.bashrc'
+          ssh staging 'export PREVIAME_FIREBASE_JSON=${{ secrets.PREVIAME_FIREBASE_JSON }} >> ~/.bashrc'
+          ssh staging 'export PREVIAME_FIREBASE_KEY=${{ secrets.PREVIAME_FIREBASE_KEY }} >> ~/.bashrc'
+          ssh staging 'export PREVIAME_FIREBASE_PRIVATE_KEY=${{ secrets.PREVIAME_FIREBASE_PRIVATE_KEY }} >> ~/.bashrc'
       - name: Run container
         run:  >
           ssh staging 'docker run -d --name previame-container -p 8000:8000 previame
