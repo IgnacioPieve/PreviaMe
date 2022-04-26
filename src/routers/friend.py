@@ -11,7 +11,7 @@ async def add_friend(
 
 
 
-        
+
         user_id: str, user=Depends(auth.authenticate)
 
 

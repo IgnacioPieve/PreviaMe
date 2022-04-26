@@ -18,8 +18,8 @@ jobs:
           architecture: x64
       - name: Install Black and isort
         run: |
-          - pip install black
-          - pip install isort
+          pip install black
+          pip install isort
       - name: Configure git
         run: |
           git config --global user.name '[Bot] Ignacio Pieve Roiger'
