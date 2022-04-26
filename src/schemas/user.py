@@ -34,6 +34,6 @@ class UserModel(BaseModel):
                 "name": "Ignacio Pieve Roiger",
                 "bio": "Hola! Me llamo Ignacio",
                 "created_at": "2022-04-12T03:31:19.122000",
-                "updated_at": "2022-04-12T03:31:19.122000"
+                "updated_at": "2022-04-12T03:31:19.122000",
             }
         }

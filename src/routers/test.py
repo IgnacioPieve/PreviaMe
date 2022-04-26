@@ -4,15 +4,12 @@ from fastapi import APIRouter, Depends, status
 from dependencies import auth
 from schemas.test import UserRequestModel
 
-router = APIRouter(
-    prefix="/test",
-    tags=['Test']
-)
+router = APIRouter(prefix="/test", tags=["Test"])
 
 
-@router.post('/auth')
+@router.post("/auth")
 def test_auth(user=Depends(auth.authenticate)):
-    return {"status": "ok", "email": user['email']}
+    return {"status": "ok", "email": user["email"]}
 
 
 @router.get("/status")
@@ -24,22 +21,17 @@ def get_status():
 @router.post("/login")
 def login(user: UserRequestModel):
 
-    user = {
-        **user.dict(),
-        "returnSecureToken": True
-    }
+    user = {**user.dict(), "returnSecureToken": True}
     url = f"https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key={config.credentials['firebase_key']}"
     response = requests.post(url, json=user)
-    return {"status": "ok", "token": response.json()['idToken']}
+    return {"status": "ok", "token": response.json()["idToken"]}
+
 
 # Endpoint to register user
 @router.post("/register")
 def register(user: UserRequestModel):
 
-    user = {
-        **user.dict(),
-        "returnSecureToken": True
-    }
+    user = {**user.dict(), "returnSecureToken": True}
     url = f"https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key={config.credentials['firebase_key']}"
     response = requests.post(url, json=user)
-    return {"status": "ok", "token": response.json()['idToken']}
+    return {"status": "ok", "token": response.json()["idToken"]}

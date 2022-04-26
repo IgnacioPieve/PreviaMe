@@ -8,7 +8,6 @@ from schemas.utils import PyObjectId
 from schemas.user import SimpleUserModel
 
 
-
 class PartyRequestModel(BaseModel):
     geopoint: list[float]
     music: list[str]
@@ -27,7 +26,7 @@ class PartyRequestModel(BaseModel):
                 "price": 750,
                 "alcohol": False,
                 "description": "UPD Promo 22",
-                "date": "2022-04-20T15:20:20.349Z"
+                "date": "2022-04-20T15:20:20.349Z",
             }
         }
 
@@ -58,7 +57,7 @@ class PartyModel(BaseModel):
                 "price": 750,
                 "alcohol": False,
                 "description": "UPD Promo 22",
-                "date": "2022-04-20T15:20:20.349Z"
+                "date": "2022-04-20T15:20:20.349Z",
             }
         }
 
@@ -77,6 +76,6 @@ class PartyOwnerModel(PartyModel):
                 "price": 750,
                 "alcohol": False,
                 "description": "UPD Promo 22",
-                "date": "2022-04-20T15:20:20.349Z"
+                "date": "2022-04-20T15:20:20.349Z",
             }
         }

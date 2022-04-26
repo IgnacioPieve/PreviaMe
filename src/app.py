@@ -8,5 +8,3 @@ app.include_router(user.router)
 app.include_router(friend.router)
 app.include_router(party.router)
 app.include_router(test.router)
-
-

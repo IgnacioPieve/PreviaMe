@@ -24,8 +24,5 @@ class StatusMessage(BaseModel):
 
     class Config:
         schema_extra = {
-            "example": {
-                "status": "ok",
-                "message": "User created successfully"
-            }
+            "example": {"status": "ok", "message": "User created successfully"}
         }
