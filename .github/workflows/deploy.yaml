@@ -1,4 +1,4 @@
-name: Integración Continua (Tests & Despliegue)
+name: CI/CD
 
 on:
   push:
