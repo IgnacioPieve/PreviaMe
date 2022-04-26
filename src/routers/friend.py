@@ -12,7 +12,7 @@ async def add_friend(user_id: str, user=Depends(auth.authenticate)):
     """
     Envía una solicitud de amistad a un usuario o se agrega como amigo si ya se ha recibido la solicitud.
     Si ya se ha recibido una solicitud, se agrega como amigo.
-    Si la otra parte no ha enviado una solicitud de amistad, se le enviará una solicitud de amistad. 
+    Si la otra parte no ha enviado una solicitud de amistad, se le enviará una solicitud de amistad.
 
     - **user_id**: id del usuario que se desea agregar como amigo.
     """
