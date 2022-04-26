@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     # needs: test
     steps:
-      - name: Set up SSH
+      - name: Configurar SSH
         run: |
           mkdir -p ~/.ssh/
           echo "$SSH_KEY" > ~/.ssh/staging.key
@@ -43,16 +43,10 @@ jobs:
       - name: Build image
         run: ssh staging 'cd /home/ubuntu/PreviaMe && docker build -t previame .'
 
-      - name: Set env variables
-        run: |
-          ssh staging 'export PREVIAME_DB_STRING=${{ secrets.PREVIAME_DB_STRING }} >> ~/.bashrc'
-          ssh staging 'export PREVIAME_FIREBASE_JSON=${{ secrets.PREVIAME_FIREBASE_JSON }} >> ~/.bashrc'
-          ssh staging 'export PREVIAME_FIREBASE_KEY=${{ secrets.PREVIAME_FIREBASE_KEY }} >> ~/.bashrc'
-          ssh staging 'export PREVIAME_FIREBASE_PRIVATE_KEY=${{ secrets.PREVIAME_FIREBASE_PRIVATE_KEY }} >> ~/.bashrc'
       - name: Run container
         run:  >
           ssh staging 'docker run -d --name previame-container -p 8000:8000 previame
-          -env PREVIAME_DB_STRING=$PREVIAME_DB_STRING
-          -env PREVIAME_FIREBASE_JSON=$PREVIAME_FIREBASE_JSON
-          -env PREVIAME_FIREBASE_KEY=$PREVIAME_FIREBASE_KEY
-          -env PREVIAME_FIREBASE_PRIVATE_KEY=$PREVIAME_FIREBASE_PRIVATE_KEY'
+          -env PREVIAME_DB_STRING="${{ secrets.PREVIAME_DB_STRING }}"
+          -env PREVIAME_FIREBASE_JSON="${{ secrets.PREVIAME_FIREBASE_JSON }}"
+          -env PREVIAME_FIREBASE_KEY="${{ secrets.PREVIAME_FIREBASE_KEY }}"
+          -env PREVIAME_FIREBASE_PRIVATE_KEY=${{ secrets.PREVIAME_FIREBASE_PRIVATE_KEY }} '
