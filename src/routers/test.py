@@ -1,10 +1,11 @@
 import requests
 from fastapi import APIRouter, Depends, status
-from database import db
+from starlette.responses import PlainTextResponse
+
 import config
+from database import db
 from dependencies import auth
 from schemas.test import UserRequestModel
-from starlette.responses import PlainTextResponse
 
 router = APIRouter(prefix="/test", tags=["Test"])
 

@@ -1,13 +1,13 @@
 import datetime
-
 import traceback
+
 from fastapi import FastAPI
 from starlette.requests import Request
 from starlette.responses import Response
 
 import config
-from routers import friend, party, test, user
 from database import db
+from routers import friend, party, test, user
 
 app = FastAPI(**config.metadata)
 
