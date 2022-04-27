@@ -1,5 +1,6 @@
-import hjson
 import os
+
+import hjson
 
 title = "PreviaMe"
 version = 0.1
