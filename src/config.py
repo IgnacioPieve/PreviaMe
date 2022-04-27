@@ -20,7 +20,7 @@ metadata = {
 db_string = os.getenv("PREVIAME_DB_STRING")
 db_name = "PreviaMe"
 
-firebase_json = hjson.loads(os.getenv("PREVIAME_FIREBASE_JSON"))
+firebase_json = dict(hjson.loads(os.getenv("PREVIAME_FIREBASE_JSON")))
 firebase_private_key = os.getenv("PREVIAME_FIREBASE_PRIVATE_KEY").replace("\\n", "\n")
 firebase = {**firebase_json, "private_key": firebase_private_key}
 firebase_key = os.getenv("PREVIAME_FIREBASE_KEY")
