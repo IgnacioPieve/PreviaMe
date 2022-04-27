@@ -28,7 +28,7 @@ def env_variable_to_dict(env_variable):
         new_dict = {}
 
         for key_value in env_variable:
-            key_value = key_value.split(':')
+            key_value = key_value.split(':', 1)
             new_dict[key_value[0].strip()] = key_value[1].strip()
 
         return new_dict
