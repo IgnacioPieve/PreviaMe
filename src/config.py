@@ -22,13 +22,13 @@ def env_variable_to_dict(env_variable):
     try:
         return json.loads(env_variable)
     except json.JSONDecodeError:
-        env_variable = env_variable.split(',')
-        env_variable[0] = env_variable[0].replace('{', '')
-        env_variable[-1] = env_variable[-1].replace('}', '')
+        env_variable = env_variable.split(",")
+        env_variable[0] = env_variable[0].replace("{", "")
+        env_variable[-1] = env_variable[-1].replace("}", "")
         new_dict = {}
 
         for key_value in env_variable:
-            key_value = key_value.split(':', 1)
+            key_value = key_value.split(":", 1)
             new_dict[key_value[0].strip()] = key_value[1].strip()
 
         return new_dict
