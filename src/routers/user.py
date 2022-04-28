@@ -3,7 +3,7 @@ import datetime
 from fastapi import APIRouter, Depends
 from fastapi.encoders import jsonable_encoder
 
-from database import db
+from database import Database
 from dependencies import auth
 from schemas.user import UserModel, UserUpdateModel
 
@@ -11,7 +11,7 @@ router = APIRouter(prefix="/user", tags=["User"])
 
 
 @router.get("/", response_model=UserModel, status_code=200, summary="Get user data")
-async def get_user(user=Depends(auth.authenticate)):
+async def get_user(user=Depends(auth.authenticate), db=Depends(Database.get_db)):
     """
     Obtener la información de un usuario
     """
@@ -19,7 +19,11 @@ async def get_user(user=Depends(auth.authenticate)):
 
 
 @router.post("/", response_model=UserModel, status_code=201, summary="Update user data")
-async def create_user(user_data: UserUpdateModel, user=Depends(auth.authenticate)):
+async def create_user(
+    user_data: UserUpdateModel,
+    user=Depends(auth.authenticate),
+    db=Depends(Database.get_db),
+):
     """
     Actualiza los datos de un usuario (sobreecribiendo el objeto completo):
 
@@ -50,7 +54,11 @@ async def create_user(user_data: UserUpdateModel, user=Depends(auth.authenticate
 @router.patch(
     "/", response_model=UserModel, status_code=200, summary="Update user data"
 )
-async def update_user(user_data: UserUpdateModel, user=Depends(auth.authenticate)):
+async def update_user(
+    user_data: UserUpdateModel,
+    user=Depends(auth.authenticate),
+    db=Depends(Database.get_db),
+):
     """
     Actualiza los datos de un usuario (sin sobreescribirlos):
 

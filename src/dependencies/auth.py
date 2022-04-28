@@ -6,7 +6,7 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from firebase_admin import auth, credentials
 
 import config
-from database import db
+from database import Database
 
 cred = credentials.Certificate(config.firebase)
 firebase_admin.initialize_app(cred)
@@ -14,6 +14,7 @@ firebase_admin.initialize_app(cred)
 
 async def authenticate(
     cred: HTTPAuthorizationCredentials = Depends(HTTPBearer(auto_error=False)),
+    db=Depends(Database.get_db),
 ):
     if cred is None:
         raise HTTPException(

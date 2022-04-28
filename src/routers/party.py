@@ -6,7 +6,7 @@ from bson import ObjectId
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.encoders import jsonable_encoder
 
-from database import db
+from database import Database
 from dependencies import auth
 from schemas.party import PartyModel, PartyRequestModel
 
@@ -15,7 +15,11 @@ router = APIRouter(prefix="/party", tags=["Party"])
 
 @router.get("/", response_model=List[PartyModel])
 async def get_parties(
-    top_lat: float, top_lng: float, bottom_lat: float, bottom_lng: float
+    top_lat: float,
+    top_lng: float,
+    bottom_lat: float,
+    bottom_lng: float,
+    db=Depends(Database.get_db),
 ):
     """
     Obtiene todas las fiestas que se encuentran dentro de un rectángulo (top_coords, bottom_coords): Area de búsqueda
@@ -52,7 +56,11 @@ async def get_party(party_id: str):
 
 
 @router.post("/", response_model=PartyModel, summary="Create a new party")
-async def create_party(party: PartyRequestModel, user=Depends(auth.authenticate)):
+async def create_party(
+    party: PartyRequestModel,
+    user=Depends(auth.authenticate),
+    db=Depends(Database.get_db),
+):
     """
     Envía una solicitud de unirse a una fiesta:
 
@@ -77,7 +85,9 @@ async def create_party(party: PartyRequestModel, user=Depends(auth.authenticate)
 
 
 @router.post("/{party_id}/join", summary="Request to join a party")
-async def join_party(party_id: str, user=Depends(auth.authenticate)):
+async def join_party(
+    party_id: str, user=Depends(auth.authenticate), db=Depends(Database.get_db)
+):
     """
     Envía una solicitud de unirse a una fiesta:
 
@@ -110,7 +120,12 @@ async def join_party(party_id: str, user=Depends(auth.authenticate)):
 
 
 @router.post("/{party_id}/{user_id}", summary="Accept a request to join a party")
-async def accept_member(party_id: str, user_id: str, user=Depends(auth.authenticate)):
+async def accept_member(
+    party_id: str,
+    user_id: str,
+    user=Depends(auth.authenticate),
+    db=Depends(Database.get_db),
+):
     """
     Acepta a un miembro de la lista de pendientes:
 

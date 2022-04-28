@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 
-from database import db
+from database import Database
 from dependencies import auth
 from schemas.utils import StatusMessage
 
@@ -8,7 +8,9 @@ router = APIRouter(prefix="/friend", tags=["Friends"])
 
 
 @router.post("/{user_id}", summary="Add user as friend", response_model=StatusMessage)
-async def add_friend(user_id: str, user=Depends(auth.authenticate)):
+async def add_friend(
+    user_id: str, user=Depends(auth.authenticate), db=Depends(Database.get_db)
+):
     """
     Envía una solicitud de amistad a un usuario o se agrega como amigo si ya se ha recibido la solicitud.
     Si ya se ha recibido una solicitud, se agrega como amigo.

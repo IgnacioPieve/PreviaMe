@@ -3,7 +3,6 @@ from typing import Optional
 
 from bson import ObjectId
 from pydantic import BaseModel, Field
-from typing_extensions import TypedDict
 
 from schemas.user import SimpleUserModel
 from schemas.utils import PyObjectId

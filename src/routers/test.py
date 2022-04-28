@@ -1,9 +1,7 @@
 import requests
-from fastapi import APIRouter, Depends, status
-from starlette.responses import PlainTextResponse
+from fastapi import APIRouter, Depends
 
 import config
-from database import db
 from dependencies import auth
 from schemas.test import UserRequestModel
 
